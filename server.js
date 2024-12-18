@@ -6,15 +6,19 @@ const app = express();
 app.use(cors());
 const PORT = 5000;
 
-app.get("/proxy/manga/:path", async (req, res) => {
-  const { path } = req.params;
+// Update the route to accept nested paths
+app.get("/proxy/manga/*", async (req, res) => {
+  const path = req.params[0]; // Capture everything after /proxy/manga/
   try {
     const response = await axios.get(
-      `https://consumet-api-9p6q.onrender.com/manga/mangadex/${path}`
+      `https://consumet-api-9p6q.onrender.com/manga/${path}`
     );
     res.json(response.data);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching data", error });
+    console.error("Error fetching data:", error.message);
+    res
+      .status(500)
+      .json({ message: "Error fetching data", error: error.message });
   }
 });
 
