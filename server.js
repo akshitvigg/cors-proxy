@@ -6,9 +6,9 @@ const app = express();
 app.use(cors());
 const PORT = 5000;
 
-// Update the route to accept nested paths
+
 app.get("/proxy/manga/*", async (req, res) => {
-  const path = req.params[0]; // Capture everything after /proxy/manga/
+  const path = req.params[0];
   try {
     const response = await axios.get(
       `https://consumet-api-9p6q.onrender.com/manga/${path}`
